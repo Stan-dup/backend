@@ -13,8 +13,10 @@ public record AwsProperties(Credentials credentials, String region, S3 s3) {
 
     private String setDefaultRegion(String region) {
         if (region == null || region.isBlank()) {
+
             return "ap-northeast-2";
         }
+
         return region;
     }
 

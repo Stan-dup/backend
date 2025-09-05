@@ -41,6 +41,7 @@ public class StoreSearchService {
                 .block(Duration.ofSeconds(5));
 
             if (response == null || response.documents() == null || response.documents().isEmpty()) {
+
                 return Collections.emptyList();
             }
 
@@ -50,15 +51,18 @@ public class StoreSearchService {
                 .filter(doc -> {
                     String jibun = doc.addressName();
                     if (jibun == null || !jibun.contains("춘천시")) {
+
                         return false;
                     }
 
                     String name = doc.placeName();
                     if (name == null || name.isBlank()) {
+
                         return false;
                     }
 
                     String n = normalizeName(name);
+
                     return n.equals(target) || n.startsWith(target + " ");
                 })
                 .map(doc -> {
@@ -75,16 +79,19 @@ public class StoreSearchService {
                 .collect(Collectors.toList());
 
         } catch (Exception e) {
+
             return Collections.emptyList();
         }
     }
 
     private String normalizeName(String s) {
+
         return s == null ? "" : s.replaceAll("\\s+", " ").trim();
     }
 
     private String trimToCityJibun(String full, String cityToken) {
         if (full == null || full.isBlank()) {
+
             return "주소 정보 없음";
         }
         int idx = full.indexOf(cityToken);

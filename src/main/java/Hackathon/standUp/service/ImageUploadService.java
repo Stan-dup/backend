@@ -24,6 +24,7 @@ public class ImageUploadService {
 
     public String uploadProfileImage(MultipartFile profileImage) {
         if (isNullOrEmptyProfileImage(profileImage)) {
+
             return null;
         }
 
@@ -41,13 +42,13 @@ public class ImageUploadService {
             ObjectMetadata metadata = createObjectMetadata(file);
 
             amazonS3.putObject(
-                new PutObjectRequest(awsProperties.s3().bucket(), key, file.getInputStream(),
-                    metadata));
+                new PutObjectRequest(awsProperties.s3().bucket(), key, file.getInputStream(), metadata));
 
             return String.format("https://%s.s3.%s.amazonaws.com/%s", awsProperties.s3().bucket(),
                 awsProperties.region(), key);
         } catch (IOException e) {
             throw new RuntimeException("failed.upload.image");
+
         }
     }
 

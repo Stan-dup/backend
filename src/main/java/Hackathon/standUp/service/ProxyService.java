@@ -43,6 +43,7 @@ public class ProxyService {
                 restTemplate.postForEntity(externalApi, httpRequest, PromotionResponse.class);
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+
                 return response.getBody();
             }
             throw new RuntimeException("외부 서버 정상 응답이지만 Body 가 비었습니다. status=" + response.getStatusCode());
