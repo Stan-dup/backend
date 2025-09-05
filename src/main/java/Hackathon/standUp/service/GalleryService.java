@@ -1,10 +1,14 @@
 package Hackathon.standUp.service;
 
+import Hackathon.standUp.dto.StoreInfo;
 import Hackathon.standUp.dto.request.CreateGalleryRequest;
+import Hackathon.standUp.dto.response.GalleryResponse;
 import Hackathon.standUp.entity.Gallery;
 import Hackathon.standUp.entity.Location;
 import Hackathon.standUp.repository.GalleryRepository;
 import Hackathon.standUp.repository.LocationRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,11 +27,23 @@ public class GalleryService {
     }
 
     public void createGallery(CreateGalleryRequest request, MultipartFile multipartFile) {
-        Location location = locationRepository.findByLocationName(request.location());
+        Location location = locationRepository.findByLocationName(request.locationName());
         String postImgUrl = imageUploadService.uploadProfileImage(multipartFile);
+
+        StoreInfo storeInfo = StoreInfo.create(request.storeInfo().phone(), request.storeInfo().address(),
+            request.storeInfo().contents());
         Gallery gallery = Gallery.create(location, request.prompt(), request.startDate(),
-            request.endDate(), postImgUrl);
+            request.endDate(), postImgUrl, storeInfo);
 
         galleryRepository.save(gallery);
+    }
+
+    public List<GalleryResponse> getGalleryList(String location, String date, String prompt) {
+        return galleryRepository.searchGallery(location, date, prompt)
+            .stream()
+            .map(gallery -> GalleryResponse.create(gallery.getPostImgUrl(),
+                gallery.getLocation().getLocationName(), gallery.getStartDate(), gallery.getEndDate(),
+                StoreInfo.create(gallery.getPhone(), gallery.getAddress(), gallery.getContents())))
+            .toList();
     }
 }

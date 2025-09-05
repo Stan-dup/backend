@@ -1,5 +1,8 @@
 package Hackathon.standUp.dto.request;
 
-public record CreateGalleryRequest(String prompt, String location, String startDate, String endDate) {
+import Hackathon.standUp.dto.StoreInfo;
+
+public record CreateGalleryRequest(String prompt, String locationName, String startDate, String endDate,
+                                   StoreInfo storeInfo) {
 
 }

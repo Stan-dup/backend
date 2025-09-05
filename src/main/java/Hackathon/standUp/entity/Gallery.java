@@ -1,5 +1,6 @@
 package Hackathon.standUp.entity;
 
+import Hackathon.standUp.dto.StoreInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,20 +38,33 @@ public class Gallery {
     @Column(name = "post_img_url")
     private String postImgUrl;
 
+    @Column(name = "phone", nullable = false)
+    private String phone;
+
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @Column(name = "contents", nullable = false)
+    private String contents;
+
     protected Gallery() {
     }
 
     @Builder
-    private Gallery(Location location, String prompt, String startDate, String endDate, String postImgUrl) {
+    private Gallery(Location location, String prompt, String startDate, String endDate, String postImgUrl,
+        StoreInfo storeInfo) {
         this.location = location;
         this.prompt = prompt;
         this.startDate = startDate;
         this.endDate = endDate;
         this.postImgUrl = postImgUrl;
+        this.phone = storeInfo.phone();
+        this.address = storeInfo.address();
+        this.contents = storeInfo.contents();
     }
 
     public static Gallery create(Location location, String prompt, String startDate, String endDate,
-        String postImgUrl) {
+        String postImgUrl, StoreInfo storeInfo) {
 
         return Gallery.builder()
             .location(location)
@@ -58,6 +72,7 @@ public class Gallery {
             .startDate(startDate)
             .endDate(endDate)
             .postImgUrl(postImgUrl)
+            .storeInfo(storeInfo)
             .build();
     }
 }
