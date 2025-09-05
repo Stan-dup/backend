@@ -38,9 +38,6 @@ public class Gallery {
     @Column(name = "post_img_url")
     private String postImgUrl;
 
-    @Column(name = "phone", nullable = false)
-    private String phone;
-
     @Column(name = "address", nullable = false)
     private String address;
 
@@ -58,7 +55,6 @@ public class Gallery {
         this.startDate = startDate;
         this.endDate = endDate;
         this.postImgUrl = postImgUrl;
-        this.phone = storeInfo.phone();
         this.address = storeInfo.address();
         this.contents = storeInfo.contents();
     }

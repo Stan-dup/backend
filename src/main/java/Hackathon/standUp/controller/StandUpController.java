@@ -5,12 +5,13 @@ import Hackathon.standUp.dto.request.PromotionRequest;
 import Hackathon.standUp.dto.response.GalleryResponse;
 import Hackathon.standUp.dto.response.LocationResponse;
 import Hackathon.standUp.dto.response.PromotionResponse;
+import Hackathon.standUp.dto.response.StoreInfoResponse;
 import Hackathon.standUp.service.GalleryService;
 import Hackathon.standUp.service.LocationService;
 import Hackathon.standUp.service.ProxyService;
-import java.time.LocalDate;
+import Hackathon.standUp.service.StoreSearchService;
 import java.util.List;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,12 +29,14 @@ public class StandUpController {
     private final ProxyService proxyService;
     private final GalleryService galleryService;
     private final LocationService locationService;
+    private final StoreSearchService storeSearchService;
 
     public StandUpController(ProxyService proxyService, GalleryService galleryService,
-        LocationService locationService) {
+        LocationService locationService, StoreSearchService storeSearchService) {
         this.proxyService = proxyService;
         this.galleryService = galleryService;
         this.locationService = locationService;
+        this.storeSearchService = storeSearchService;
     }
 
     @PostMapping("/proxy")
@@ -67,5 +70,13 @@ public class StandUpController {
         List<LocationResponse> responses = locationService.getLocationList();
 
         return ResponseEntity.status(HttpStatus.OK).body(responses);
+    }
+
+    @GetMapping("/store/info")
+    public ResponseEntity<List<StoreInfoResponse>> getStoreInfoByNaverMapApi(
+        @RequestParam(name = "storeName") String storeName) {
+        List<StoreInfoResponse> response = storeSearchService.getStoreInfoByNaverMapApi(storeName);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

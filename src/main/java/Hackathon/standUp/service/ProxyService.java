@@ -5,6 +5,7 @@ import Hackathon.standUp.dto.response.PromotionResponse;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -30,11 +31,13 @@ public class ProxyService {
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            Map<String, String> body = new HashMap<>();
+            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-            body = pushBody(body, request, base64Image);
-            HttpEntity<Map<String, String>> httpRequest = new HttpEntity<>(body, headers);
-            String externalApi = "tempUrl"; // <- ai서버 api 주소
+            Map<String, Object> body = new HashMap<>();
+            pushBody(body, request, base64Image);
+
+            HttpEntity<Map<String, Object>> httpRequest = new HttpEntity<>(body, headers);
+            String externalApi = "tempUrl";
 
             ResponseEntity<PromotionResponse> response =
                 restTemplate.postForEntity(externalApi, httpRequest, PromotionResponse.class);
@@ -55,7 +58,7 @@ public class ProxyService {
         }
     }
 
-    private Map<String, String> pushBody(Map<String, String> body, PromotionRequest request, String base64Image) {
+    private void pushBody(Map<String, Object> body, PromotionRequest request, String base64Image) {
         body.put("image_encoding", base64Image);
         body.put("purpose", request.purpose().name());
         body.put("mainColor", request.subColor());
@@ -63,7 +66,11 @@ public class ProxyService {
         body.put("startDate", request.startDate());
         body.put("endDate", request.endDate());
         body.put("facilityType", request.facilityType().name());
+        body.put("prompt", request.prompt());
 
-        return body;
+        Map<String, Object> storeInfo = new HashMap<>();
+        storeInfo.put("address", request.storeInfo().address());
+        storeInfo.put("contents",request.storeInfo().contents());
+        body.put("StoreInfo", storeInfo);
     }
 }

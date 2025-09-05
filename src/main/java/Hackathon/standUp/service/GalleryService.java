@@ -30,7 +30,7 @@ public class GalleryService {
         Location location = locationRepository.findByLocationName(request.locationName());
         String postImgUrl = imageUploadService.uploadProfileImage(multipartFile);
 
-        StoreInfo storeInfo = StoreInfo.create(request.storeInfo().phone(), request.storeInfo().address(),
+        StoreInfo storeInfo = StoreInfo.create(request.storeInfo().address(),
             request.storeInfo().contents());
         Gallery gallery = Gallery.create(location, request.prompt(), request.startDate(),
             request.endDate(), postImgUrl, storeInfo);
@@ -43,7 +43,7 @@ public class GalleryService {
             .stream()
             .map(gallery -> GalleryResponse.create(gallery.getPostImgUrl(),
                 gallery.getLocation().getLocationName(), gallery.getStartDate(), gallery.getEndDate(),
-                StoreInfo.create(gallery.getPhone(), gallery.getAddress(), gallery.getContents())))
+                StoreInfo.create(gallery.getAddress(), gallery.getContents())))
             .toList();
     }
 }
