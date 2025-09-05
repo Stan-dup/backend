@@ -3,13 +3,14 @@ package Hackathon.standUp.dto.response;
 import lombok.Builder;
 
 @Builder
-public record StoreInfoResponse(String address, String contents) {
+public record StoreInfoResponse(String address, String phone, String name) {
 
-    public static StoreInfoResponse create(String address, String contents) {
+    public static StoreInfoResponse create(String address, String phone, String name) {
 
         return StoreInfoResponse.builder()
             .address(address)
-            .contents(contents)
+            .phone(phone)
+            .name(name)
             .build();
     }
 }

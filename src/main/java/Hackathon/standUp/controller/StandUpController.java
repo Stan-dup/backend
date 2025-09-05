@@ -2,6 +2,7 @@ package Hackathon.standUp.controller;
 
 import Hackathon.standUp.dto.request.CreateGalleryRequest;
 import Hackathon.standUp.dto.request.PromotionRequest;
+import Hackathon.standUp.dto.request.StoreNameRequest;
 import Hackathon.standUp.dto.response.GalleryResponse;
 import Hackathon.standUp.dto.response.LocationResponse;
 import Hackathon.standUp.dto.response.PromotionResponse;
@@ -11,11 +12,11 @@ import Hackathon.standUp.service.LocationService;
 import Hackathon.standUp.service.ProxyService;
 import Hackathon.standUp.service.StoreSearchService;
 import java.util.List;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -73,9 +74,9 @@ public class StandUpController {
     }
 
     @GetMapping("/store/info")
-    public ResponseEntity<List<StoreInfoResponse>> getStoreInfoByNaverMapApi(
+    public ResponseEntity<List<StoreInfoResponse>> getStoreInfoByKakaoMapApi(
         @RequestParam(name = "storeName") String storeName) {
-        List<StoreInfoResponse> response = storeSearchService.getStoreInfoByNaverMapApi(storeName);
+        List<StoreInfoResponse> response = storeSearchService.getStoreInfoByKakaoMapApi(storeName);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

@@ -61,7 +61,7 @@ public class ProxyService {
     private void pushBody(Map<String, Object> body, PromotionRequest request, String base64Image) {
         body.put("image_encoding", base64Image);
         body.put("purpose", request.purpose().name());
-        body.put("mainColor", request.subColor());
+        body.put("mainColor", request.mood());
         body.put("size", request.size());
         body.put("startDate", request.startDate());
         body.put("endDate", request.endDate());
