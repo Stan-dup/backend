@@ -1,0 +1,63 @@
+package Hackathon.standUp.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Getter;
+
+@Entity
+@Table(name = "GALLERY_TB")
+@Getter
+public class Gallery {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "gallery_id", nullable = false)
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;
+
+    @Column(name = "prompt", nullable = false)
+    private String prompt;
+
+    @Column(name = "start_date", nullable = false)
+    private String startDate;
+
+    @Column(name = "end_date", nullable = false)
+    private String endDate;
+
+    @Column(name = "post_img_url")
+    private String postImgUrl;
+
+    protected Gallery() {
+    }
+
+    @Builder
+    private Gallery(Location location, String prompt, String startDate, String endDate, String postImgUrl) {
+        this.location = location;
+        this.prompt = prompt;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.postImgUrl = postImgUrl;
+    }
+
+    public static Gallery create(Location location, String prompt, String startDate, String endDate,
+        String postImgUrl) {
+
+        return Gallery.builder()
+            .location(location)
+            .prompt(prompt)
+            .startDate(startDate)
+            .endDate(endDate)
+            .postImgUrl(postImgUrl)
+            .build();
+    }
+}
