@@ -37,7 +37,7 @@ public class ProxyService {
             pushBody(body, request, base64Image);
 
             HttpEntity<Map<String, Object>> httpRequest = new HttpEntity<>(body, headers);
-            String externalApi = "tempUrl";
+            String externalApi = "";
 
             ResponseEntity<PromotionResponse> response =
                 restTemplate.postForEntity(externalApi, httpRequest, PromotionResponse.class);
