@@ -29,13 +29,13 @@ public class Gallery {
     @Column(name = "prompt", nullable = false)
     private String prompt;
 
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_date", nullable = true)
     private String startDate;
 
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_date", nullable = true)
     private String endDate;
 
-    @Column(name = "post_img_url")
+    @Column(name = "post_img_url", nullable = false)
     private String postImgUrl;
 
     @Column(name = "address", nullable = false)
