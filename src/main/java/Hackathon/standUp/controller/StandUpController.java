@@ -2,11 +2,15 @@ package Hackathon.standUp.controller;
 
 import Hackathon.standUp.dto.request.CreateGalleryRequest;
 import Hackathon.standUp.dto.request.PromotionRequest;
+import Hackathon.standUp.dto.response.LocationResponse;
 import Hackathon.standUp.dto.response.PromotionResponse;
 import Hackathon.standUp.service.GalleryService;
+import Hackathon.standUp.service.LocationService;
 import Hackathon.standUp.service.ProxyService;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -19,10 +23,13 @@ public class StandUpController {
 
     private final ProxyService proxyService;
     private final GalleryService galleryService;
+    private final LocationService locationService;
 
-    public StandUpController(ProxyService proxyService, GalleryService galleryService) {
+    public StandUpController(ProxyService proxyService, GalleryService galleryService,
+        LocationService locationService) {
         this.proxyService = proxyService;
         this.galleryService = galleryService;
+        this.locationService = locationService;
     }
 
     @PostMapping("/proxy")
@@ -40,5 +47,12 @@ public class StandUpController {
         galleryService.createGallery(request, multipartFile);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/location")
+    public ResponseEntity<List<LocationResponse>> getLocationList() {
+        List<LocationResponse> responses = locationService.getLocationList();
+
+        return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
 }
