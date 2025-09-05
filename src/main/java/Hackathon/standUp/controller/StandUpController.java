@@ -36,7 +36,7 @@ public class StandUpController {
 
     @PostMapping("/gallery")
     public ResponseEntity<Void> createGallery(@RequestPart(name = "request") CreateGalleryRequest request,
-        @RequestPart(name = "post", required = false) MultipartFile multipartFile) {
+        @RequestPart(name = "postImg", required = false) MultipartFile multipartFile) {
         galleryService.createGallery(request, multipartFile);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
