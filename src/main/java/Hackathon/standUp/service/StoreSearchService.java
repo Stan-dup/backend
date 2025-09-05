@@ -17,7 +17,7 @@ public class StoreSearchService {
 
     private static final String CHUNCHEON_X = "127.734";
     private static final String CHUNCHEON_Y = "37.881";
-    private static final int SEARCH_RADIUS = 10_000;
+    private static final int SEARCH_RADIUS = 20_000;
 
     public StoreSearchService(@Value("${kakao.api.key}") String kakaoApiKey) {
         this.webClient = WebClient.builder()
