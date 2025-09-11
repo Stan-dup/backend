@@ -40,10 +40,10 @@ public class StandUpController {
         this.storeSearchService = storeSearchService;
     }
 
-    @PostMapping("/proxy")
+    @PostMapping(value = "/proxy", consumes = "multipart/form-data")
     public ResponseEntity<PromotionResponse> proxyPromotion(
         @RequestPart(name = "request") PromotionRequest request,
-        @RequestPart(name = "img", required = false) MultipartFile multipartFile) {
+        @RequestPart(name = "img") MultipartFile multipartFile) {
         PromotionResponse response = proxyService.proxyPromotion(request, multipartFile);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -51,7 +51,7 @@ public class StandUpController {
 
     @PostMapping("/gallery")
     public ResponseEntity<Void> createGallery(@RequestPart(name = "request") CreateGalleryRequest request,
-        @RequestPart(name = "postImg", required = false) MultipartFile multipartFile) {
+        @RequestPart(name = "postImg") MultipartFile multipartFile) {
         galleryService.createGallery(request, multipartFile);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -73,10 +73,10 @@ public class StandUpController {
         return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
 
-    @GetMapping("/store/info")
+    @PostMapping("/store/info")
     public ResponseEntity<List<StoreInfoResponse>> getStoreInfoByKakaoMapApi(
-        @RequestParam(name = "storeName") String storeName) {
-        List<StoreInfoResponse> response = storeSearchService.getStoreInfoByKakaoMapApi(storeName);
+        @RequestBody StoreNameRequest request) {
+        List<StoreInfoResponse> response = storeSearchService.getStoreInfoByKakaoMapApi(request);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

@@ -41,8 +41,11 @@ public class Gallery {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "contents", nullable = false)
-    private String contents;
+    @Column(name = "phone", nullable = false)
+    private String phone;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     protected Gallery() {
     }
@@ -56,7 +59,8 @@ public class Gallery {
         this.endDate = endDate;
         this.postImgUrl = postImgUrl;
         this.address = storeInfo.address();
-        this.contents = storeInfo.contents();
+        this.phone = storeInfo.phone();
+        this.name = storeInfo.name();
     }
 
     public static Gallery create(Location location, String prompt, String startDate, String endDate,

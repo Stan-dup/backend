@@ -7,7 +7,6 @@ import Hackathon.standUp.entity.Gallery;
 import Hackathon.standUp.entity.Location;
 import Hackathon.standUp.repository.GalleryRepository;
 import Hackathon.standUp.repository.LocationRepository;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +30,7 @@ public class GalleryService {
         String postImgUrl = imageUploadService.uploadProfileImage(multipartFile);
 
         StoreInfo storeInfo = StoreInfo.create(request.storeInfo().address(),
-            request.storeInfo().contents());
+            request.storeInfo().phone(), request.storeInfo().name());
         Gallery gallery = Gallery.create(location, request.prompt(), request.startDate(),
             request.endDate(), postImgUrl, storeInfo);
 
@@ -43,7 +42,7 @@ public class GalleryService {
             .stream()
             .map(gallery -> GalleryResponse.create(gallery.getPostImgUrl(),
                 gallery.getLocation().getLocationName(), gallery.getStartDate(), gallery.getEndDate(),
-                StoreInfo.create(gallery.getAddress(), gallery.getContents())))
+                StoreInfo.create(gallery.getAddress(), gallery.getPhone(), gallery.getName())))
             .toList();
     }
 }

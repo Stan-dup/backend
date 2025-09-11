@@ -28,16 +28,15 @@ public class ProxyService {
     public PromotionResponse proxyPromotion(PromotionRequest request, MultipartFile multipartFile) {
         try{
             String base64Image = Base64.getEncoder().encodeToString(multipartFile.getBytes());
-
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
             Map<String, Object> body = new HashMap<>();
             pushBody(body, request, base64Image);
-
             HttpEntity<Map<String, Object>> httpRequest = new HttpEntity<>(body, headers);
-            String externalApi = "";
+
+            String externalApi = "https://mumbai-employer-served-updating.trycloudflare.com/generate-poster";
 
             ResponseEntity<PromotionResponse> response =
                 restTemplate.postForEntity(externalApi, httpRequest, PromotionResponse.class);
@@ -60,18 +59,20 @@ public class ProxyService {
     }
 
     private void pushBody(Map<String, Object> body, PromotionRequest request, String base64Image) {
-        body.put("image_encoding", base64Image);
-        body.put("purpose", request.purpose().name());
-        body.put("mainColor", request.mood());
+        body.put("img", base64Image);
+        body.put("purpose", request.purpose());
+        body.put("facilityType", request.facilityType());
+        body.put("prompt", request.prompt());
+        body.put("mainColor", request.mainColor());
+        body.put("mood", request.mood());
         body.put("size", request.size());
         body.put("startDate", request.startDate());
         body.put("endDate", request.endDate());
-        body.put("facilityType", request.facilityType().name());
-        body.put("prompt", request.prompt());
 
         Map<String, Object> storeInfo = new HashMap<>();
         storeInfo.put("address", request.storeInfo().address());
-        storeInfo.put("contents",request.storeInfo().contents());
-        body.put("StoreInfo", storeInfo);
+        storeInfo.put("phone",request.storeInfo().phone());
+        storeInfo.put("name",request.storeInfo().name());
+        body.put("storeInfo", storeInfo);
     }
 }

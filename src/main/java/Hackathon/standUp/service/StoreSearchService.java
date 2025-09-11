@@ -1,5 +1,6 @@
 package Hackathon.standUp.service;
 
+import Hackathon.standUp.dto.request.StoreNameRequest;
 import Hackathon.standUp.dto.response.KakaoSearchResponse;
 import Hackathon.standUp.dto.response.StoreInfoResponse;
 import java.time.Duration;
@@ -26,12 +27,12 @@ public class StoreSearchService {
             .build();
     }
 
-    public List<StoreInfoResponse> getStoreInfoByKakaoMapApi(String storeName) {
+    public List<StoreInfoResponse> getStoreInfoByKakaoMapApi(StoreNameRequest request) {
         try {
             KakaoSearchResponse response = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                     .path("/v2/local/search/keyword.json")
-                    .queryParam("query", storeName)
+                    .queryParam("query", request.storeName())
                     .queryParam("x", CHUNCHEON_X)
                     .queryParam("y", CHUNCHEON_Y)
                     .queryParam("radius", SEARCH_RADIUS)
@@ -45,7 +46,7 @@ public class StoreSearchService {
                 return Collections.emptyList();
             }
 
-            final String target = normalizeName(storeName);
+            final String target = normalizeName(request.storeName());
 
             return response.documents().stream()
                 .filter(doc -> {
